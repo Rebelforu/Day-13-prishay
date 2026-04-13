@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prishay — Thirteen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;0,6..96,900;1,6..96,400;1,6..96,700&family=Plus+Jakarta+Sans:wght@200;300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+
+:root{
+  --plum:    #1A0F1E;
+  --plum2:   #22162A;
+  --plum3:   #2E1F3C;
+  --plum4:   #3D2D52;
+  --violet:  #5C4478;
+  --lavender:#8870A8;
+  --lilac:   #BBA8D4;
+  --blush:   #E8C4C0;
+  --rose:    #C87880;
+  --rose2:   #E09898;
+  --petal:   #F4E0DC;
+  --warm:    #FAF4F0;
+  --wire:    rgba(187,168,212,.07);
+  --glow:    rgba(187,168,212,.14);
+  --dim:     rgba(250,244,240,.3);
+  --dimmer:  rgba(250,244,240,.14);
+}
+
+body{
+  background:var(--plum);
+  color:var(--warm);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CURSOR — thin vertical stroke + dot */
+#cA{position:fixed;pointer-events:none;z-index:9999;width:1px;height:28px;background:var(--blush);transform:translate(-50%,-50%);opacity:.7;}
+#cB{position:fixed;pointer-events:none;z-index:9999;width:5px;height:5px;border-radius:50%;background:var(--rose);transform:translate(-50%,-50%);margin-top:16px;opacity:.6;}
+
+/* NOISE */
+body::after{content:'';position:fixed;inset:0;z-index:7000;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='260' height='260' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+  opacity:.6;mix-blend-mode:soft-light;}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   STAGE — cinematic opening, large BG numeral
+   Timer lives INSIDE the hero as giant stacked digits
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#stage{
+  min-height:100vh;
+  position:relative;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  z-index:2;
+}
+
+/* ambient light blobs */
+.amb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(90px);}
+.amb1{width:600px;height:600px;background:radial-gradient(circle,rgba(92,68,120,.18),transparent 70%);top:-150px;right:-100px;animation:amb-drift 14s ease-in-out infinite alternate;}
+.amb2{width:400px;height:400px;background:radial-gradient(circle,rgba(200,120,128,.1),transparent 70%);bottom:-80px;left:-60px;animation:amb-drift 18s ease-in-out infinite alternate-reverse;}
+@keyframes amb-drift{from{transform:translate(0,0);}to{transform:translate(30px,20px);}}
+
+.stage-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:36px 64px;
+  border-bottom:1px solid var(--wire);
+  position:relative;z-index:3;
+  animation:rise .8s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(-14px);}to{opacity:1;transform:none;}}
+.st-wordmark{
+  font-family:'Bodoni Moda',serif;font-size:15px;font-weight:700;
+  letter-spacing:.12em;color:var(--lilac);
+}
+.st-meta{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:9px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--dimmer);
+}
+
+/* main stage body */
+.stage-body{
+  flex:1;display:grid;
+  grid-template-columns:1fr 1fr;
+  position:relative;z-index:2;
+}
+
+.stage-left{
+  display:flex;flex-direction:column;
+  justify-content:flex-end;
+  padding:60px 64px 64px;
+}
+.stage-eyebrow{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8.5px;letter-spacing:.6em;text-transform:uppercase;
+  color:var(--rose2);
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:2.8rem;
+  animation:rise .9s .2s cubic-bezier(.16,1,.3,1) both;
+}
+.stage-eyebrow::before{content:'';display:block;width:22px;height:1px;background:var(--rose);}
+
+.stage-h{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(46px,6.5vw,88px);
+  font-weight:900;
+  line-height:.92;letter-spacing:-.03em;
+  color:var(--warm);
+  animation:rise 1s .35s cubic-bezier(.16,1,.3,1) both;
+}
+.stage-h .ital{font-style:italic;color:var(--blush);}
+.stage-h .rule{
+  display:block;margin-top:.2em;
+  font-size:.55em;font-weight:400;font-style:italic;
+  color:var(--lilac);letter-spacing:-.01em;
+}
+
+.stage-sub{
+  font-family:'Crimson Pro',serif;font-size:clamp(16px,1.9vw,21px);
+  font-style:italic;font-weight:300;
+  color:var(--dim);line-height:1.9;
+  max-width:440px;margin-top:2.5rem;
+  animation:rise .9s .55s cubic-bezier(.16,1,.3,1) both;
+}
+
+.stage-scroll{
+  margin-top:3.5rem;
+  display:flex;align-items:center;gap:14px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--dimmer);
+  animation:rise .8s .75s cubic-bezier(.16,1,.3,1) both;
+}
+.scroll-tick{width:1px;height:32px;background:linear-gradient(to bottom,var(--rose),transparent);animation:tick-breathe 2.2s ease-in-out infinite;}
+@keyframes tick-breathe{0%,100%{opacity:.2;transform:scaleY(.8);}50%{opacity:.8;transform:scaleY(1.1);}}
+
+/* RIGHT — timer as giant numerals, stacked */
+.stage-right{
+  border-left:1px solid var(--wire);
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:60px 56px;
+  gap:0;
+  animation:rise .9s .4s cubic-bezier(.16,1,.3,1) both;
+}
+.stage-timer-label{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--dimmer);margin-bottom:1.5rem;
+  display:flex;align-items:center;gap:10px;
+}
+.stage-timer-label::before{content:'';display:block;width:16px;height:1px;background:rgba(187,168,212,.2);}
+
+.timer-rows{display:flex;flex-direction:column;gap:0;}
+.tr{
+  display:flex;align-items:baseline;justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid var(--wire);
+  position:relative;
+}
+.tr:first-child{border-top:1px solid var(--wire);}
+.tr-label{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.44em;text-transform:uppercase;
+  color:var(--dimmer);
+}
+.tr-val{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:clamp(44px,6vw,72px);
+  color:var(--warm);line-height:1;
+  letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 0 60px rgba(187,168,212,.15);
+}
+/* progress bar under each row */
+.tr-bar{
+  position:absolute;bottom:0;left:0;
+  height:1px;background:var(--violet);
+  transition:width 1s linear;
+}
+#bday-glow{
+  display:none;
+  font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;
+  font-size:clamp(22px,3vw,32px);
+  color:var(--blush);line-height:1.4;padding:24px 0;
+}
+.timer-note{
+  margin-top:1.5rem;
+  font-family:'Crimson Pro',serif;font-size:13px;font-style:italic;
+  color:rgba(250,244,240,.2);line-height:1.7;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   SECTION: SWEET — the personal section
+   Each "thing about her" is a visual object
+   Not paragraphs — short lyric lines in a different layout each time
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#sweet{
+  position:relative;z-index:2;
+  background:var(--petal);
+  padding:0;
+}
+.sweet-banner{
+  background:var(--rose);
+  padding:20px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sweet-banner-text{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.56em;text-transform:uppercase;
+  color:rgba(26,15,30,.5);
+}
+.sweet-banner-title{
+  font-family:'Bodoni Moda',serif;font-size:13px;font-weight:700;
+  letter-spacing:.15em;color:rgba(26,15,30,.7);
+}
+
+/* each "sweet" card is its own visual layout */
+.sweet-items{display:flex;flex-direction:column;gap:0;}
+
+/* TYPE A — large number left, text right */
+.si-type-a{
+  display:grid;grid-template-columns:200px 1fr;
+  border-bottom:1px solid rgba(26,15,30,.06);
+  transition:background .3s;
+}
+.si-type-a:hover{background:rgba(200,120,128,.04);}
+.sia-num{
+  padding:56px 40px;
+  display:flex;align-items:center;justify-content:center;
+  border-right:1px solid rgba(26,15,30,.06);
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:5rem;color:rgba(26,15,30,.08);
+  letter-spacing:-.04em;line-height:1;
+}
+.sia-body{padding:56px 60px;}
+.sia-label{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:300;
+  font-size:8px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:1rem;
+}
+.sia-h{
+  font-family:'Bodoni Moda',serif;font-weight:700;
+  font-size:clamp(20px,2.5vw,30px);
+  color:var(--plum);line-height:1.2;
+  margin-bottom:.8rem;letter-spacing:-.01em;
+}
+.sia-h em{font-style:italic;color:var(--violet);}
+.sia-line{
+  font-family:'Crimson Pro',serif;font-size:clamp(15px,1.7vw,18px);
+  color:rgba(26,15,30,.55);line-height:1.85;font-style:italic;
+}
+
+/* TYPE B — full width, centred, big italic */
+.si-type-b{
+  padding:72px 120px;
+  text-align:center;
+  background:var(--plum3);
+  position:relative;overflow:hidden;
+}
+.si-type-b::before{
+  content:'"';position:absolute;
+  font-family:'Bodoni Moda',serif;font-size:min(35vw,320px);
+  color:rgba(187,168,212,.04);line-height:1;
+  top:-40px;left:40px;
+  pointer-events:none;
+}
+.sib-tag{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--lavender);margin-bottom:2rem;
+}
+.sib-text{
+  font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;
+  font-size:clamp(22px,3.5vw,44px);
+  color:var(--warm);line-height:1.3;
+  letter-spacing:-.01em;max-width:700px;margin:0 auto;
+}
+.sib-text strong{font-style:normal;color:var(--blush);}
+.sib-attr{
+  margin-top:1.8rem;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(187,168,212,.25);
+}
+
+/* TYPE C — two-column micro cards */
+.si-type-c{
+  display:grid;grid-template-columns:1fr 1fr;
+  border-bottom:1px solid rgba(26,15,30,.06);
+}
+.sic-card{
+  padding:52px 56px;
+  border-right:1px solid rgba(26,15,30,.06);
+  transition:background .3s;
+}
+.sic-card:last-child{border-right:none;}
+.sic-card:hover{background:rgba(200,120,128,.03);}
+.sic-n{
+  font-family:'Bodoni Moda',serif;font-weight:900;font-style:italic;
+  font-size:3.5rem;color:rgba(26,15,30,.07);
+  line-height:1;margin-bottom:1rem;
+}
+.sic-label{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:300;
+  font-size:7.5px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--rose);margin-bottom:.8rem;
+}
+.sic-h{
+  font-family:'Bodoni Moda',serif;font-weight:700;
+  font-size:clamp(17px,2vw,22px);
+  color:var(--plum);line-height:1.2;margin-bottom:.7rem;
+  letter-spacing:-.01em;
+}
+.sic-h em{font-style:italic;color:var(--violet);}
+.sic-p{
+  font-family:'Crimson Pro',serif;font-size:15px;
+  color:rgba(26,15,30,.55);line-height:1.85;font-style:italic;
+}
+
+/* TYPE D — diagonal / offset quote */
+.si-type-d{
+  padding:80px 64px;
+  background:var(--plum2);
+  display:grid;grid-template-columns:80px 1fr;
+  gap:40px;align-items:start;
+  border-bottom:1px solid var(--wire);
+}
+.sid-num{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:4rem;color:rgba(187,168,212,.1);
+  line-height:1;padding-top:4px;
+}
+.sid-body{}
+.sid-label{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.5em;text-transform:uppercase;
+  color:var(--lavender);margin-bottom:1rem;
+}
+.sid-h{
+  font-family:'Bodoni Moda',serif;font-weight:700;
+  font-size:clamp(20px,2.8vw,34px);
+  color:var(--warm);line-height:1.15;
+  margin-bottom:.8rem;letter-spacing:-.015em;
+}
+.sid-h em{font-style:italic;color:var(--blush);}
+.sid-p{
+  font-family:'Crimson Pro',serif;font-size:clamp(15px,1.7vw,18px);
+  color:rgba(250,244,240,.5);line-height:1.9;font-style:italic;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   THIRTEEN DAYS — horizontal card strip
+   Each day = a tall slim card you click
+   Completely different from accordions, grids, or windows
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#thirteen{
+  position:relative;z-index:2;
+  background:var(--plum2);
+  padding:100px 0 100px 64px;
+  overflow:hidden;
+}
+.thirteen-head{
+  padding-right:64px;
+  margin-bottom:56px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:40px;
+}
+.th-h{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:clamp(28px,4vw,50px);
+  color:var(--warm);line-height:1.0;letter-spacing:-.025em;
+}
+.th-h em{font-style:italic;color:var(--blush);}
+.th-note{
+  font-family:'Crimson Pro',serif;font-size:15px;font-style:italic;
+  color:rgba(250,244,240,.3);max-width:280px;line-height:1.8;
+  text-align:right;flex-shrink:0;
+}
+
+/* horizontal scroll container */
+.cards-track{
+  display:flex;gap:12px;
+  overflow-x:auto;
+  padding-right:64px;
+  padding-bottom:8px;
+  scrollbar-width:none;
+  cursor:grab;
+}
+.cards-track::-webkit-scrollbar{display:none;}
+.cards-track.grabbing{cursor:grabbing;}
+
+.day-card{
+  flex-shrink:0;
+  width:160px;
+  min-height:260px;
+  border:1px solid var(--wire);
+  display:flex;flex-direction:column;
+  justify-content:space-between;
+  padding:24px 20px;
+  background:rgba(250,244,240,.025);
+  position:relative;overflow:hidden;
+  transition:all .35s cubic-bezier(.23,1,.32,1);
+  cursor:not-allowed;
+}
+.day-card.lit{cursor:pointer;}
+.day-card.lit:hover{
+  background:rgba(92,68,120,.15);
+  border-color:rgba(187,168,212,.25);
+  transform:translateY(-6px);
+}
+.day-card.lit:hover .dc-reveal{opacity:1;}
+.day-card.is-today{
+  border-color:rgba(250,244,240,.2);
+  background:rgba(250,244,240,.04);
+}
+.day-card.is-bday{
+  border-color:rgba(200,120,128,.4);
+  background:rgba(200,120,128,.08);
+  animation:bday-card 3s ease-in-out infinite;
+  width:200px;
+}
+@keyframes bday-card{
+  0%,100%{box-shadow:0 0 0 0 rgba(200,120,128,0);}
+  50%{box-shadow:0 0 30px 4px rgba(200,120,128,.12);}
+}
+
+.dc-top{display:flex;align-items:flex-start;justify-content:space-between;}
+.dc-num{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:3.2rem;color:rgba(250,244,240,.12);
+  line-height:1;letter-spacing:-.04em;
+  transition:color .35s;
+}
+.day-card.lit .dc-num{color:rgba(250,244,240,.4);}
+.day-card.lit:hover .dc-num{color:var(--blush);}
+.day-card.is-bday .dc-num{color:var(--rose2);font-size:4rem;}
+.dc-status{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:6px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(250,244,240,.15);
+  padding:4px 8px;border:1px solid rgba(250,244,240,.08);
+}
+.day-card.lit .dc-status{color:rgba(250,244,240,.3);border-color:rgba(250,244,240,.15);}
+.day-card.is-bday .dc-status{color:var(--rose);border-color:rgba(200,120,128,.3);}
+
+.dc-mid{flex:1;display:flex;align-items:center;padding:12px 0;}
+.dc-title{
+  font-family:'Crimson Pro',serif;font-size:14px;font-style:italic;
+  color:rgba(250,244,240,.0);line-height:1.5;
+  transition:color .35s;
+}
+.day-card.lit .dc-title{color:rgba(250,244,240,.3);}
+.day-card.lit:hover .dc-title{color:rgba(250,244,240,.6);}
+.day-card.is-bday .dc-title{color:rgba(232,176,174,.7);}
+
+.dc-bottom{}
+.dc-date{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:7px;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(250,244,240,.2);
+}
+.day-card.lit .dc-date{color:rgba(250,244,240,.35);}
+.day-card.is-bday .dc-date{color:var(--rose2);}
+
+.dc-reveal{
+  position:absolute;bottom:16px;right:16px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:7px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--blush);opacity:0;transition:opacity .3s;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   CHAPTER: ESSAY — flowing, different from all past
+   Large side number, not columns but flowing generous text
+   The typography IS the design
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#essay{
+  position:relative;z-index:2;
+  background:var(--warm);
+  padding:100px 0;
+}
+.essay-inner{
+  max-width:780px;
+  margin:0 auto;
+  padding:0 64px;
+}
+.essay-meta{
+  display:flex;align-items:center;gap:20px;
+  margin-bottom:3rem;
+}
+.essay-chap{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.56em;text-transform:uppercase;
+  color:var(--rose);
+}
+.essay-line{flex:1;height:1px;background:rgba(26,15,30,.07);}
+.essay-h{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:clamp(28px,4vw,50px);
+  line-height:1.05;letter-spacing:-.025em;
+  color:var(--plum);margin-bottom:3rem;
+}
+.essay-h em{font-style:italic;color:var(--violet);}
+
+/* the text itself — varied treatment */
+.e-lg{
+  font-family:'Bodoni Moda',serif;font-weight:400;
+  font-size:clamp(22px,2.8vw,32px);
+  line-height:1.55;color:var(--plum);
+  margin-bottom:2.5rem;letter-spacing:-.01em;
+}
+.e-lg em{font-style:italic;color:var(--violet);}
+.e-body{
+  font-family:'Crimson Pro',serif;font-size:clamp(17px,1.9vw,22px);
+  font-weight:300;line-height:2;color:rgba(26,15,30,.65);
+  margin-bottom:2rem;
+}
+.e-body em{font-style:italic;color:rgba(92,68,120,.8);}
+.e-body strong{font-weight:400;color:var(--plum);}
+.e-rule{height:1px;background:rgba(26,15,30,.06);margin:2.5rem 0;}
+/* highlight line — bold italic, larger, centred */
+.e-hl{
+  font-family:'Bodoni Moda',serif;font-style:italic;font-weight:700;
+  font-size:clamp(18px,2.3vw,26px);
+  text-align:center;color:var(--violet);
+  margin:2.5rem 0;padding:0 2rem;
+  line-height:1.4;
+}
+.e-small{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:300;
+  font-size:13px;color:rgba(26,15,30,.4);
+  letter-spacing:.06em;line-height:1.9;
+  margin-bottom:1.5rem;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   LETTER — the sweet personal one
+   Dark plum, generous type, feels intimate
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#letter{
+  position:relative;z-index:2;
+  background:var(--plum);
+  padding:100px 64px;
+}
+.letter-wrap{
+  display:grid;grid-template-columns:1fr 580px;
+  gap:0;align-items:start;
+}
+.letter-margin{
+  padding-right:60px;position:sticky;top:72px;
+}
+.lm-tag{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.52em;text-transform:uppercase;
+  color:var(--rose);
+  display:flex;align-items:center;gap:10px;margin-bottom:2rem;
+}
+.lm-tag::before{content:'';display:block;width:16px;height:1px;background:var(--rose);}
+.lm-h{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:clamp(24px,3vw,38px);
+  line-height:1.1;color:var(--warm);
+  margin-bottom:1.5rem;letter-spacing:-.02em;
+}
+.lm-h em{font-style:italic;color:var(--blush);}
+.lm-p{
+  font-family:'Crimson Pro',serif;font-size:14px;font-style:italic;
+  color:rgba(250,244,240,.3);line-height:1.85;
+}
+.lm-stamp{
+  margin-top:2.5rem;padding-top:1.5rem;
+  border-top:1px solid var(--wire);
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(250,244,240,.14);
+}
+
+.letter-doc{
+  border-left:1px solid var(--wire);
+  padding-left:60px;
+}
+.l-salute{
+  display:block;
+  font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;
+  font-size:1.5rem;color:var(--blush);
+  margin-bottom:2.5rem;
+}
+.l-body{
+  font-family:'Crimson Pro',serif;
+  font-size:clamp(17px,1.9vw,21px);
+  font-weight:300;line-height:2.1;
+  color:rgba(250,244,240,.65);
+}
+.l-body p{margin-bottom:2rem;}
+.l-body p:last-child{margin-bottom:0;}
+.l-body em{font-style:italic;color:var(--lilac);}
+.l-body strong{font-weight:400;color:var(--warm);font-style:italic;}
+/* sweet drop cap */
+.l-body p:first-of-type::first-letter{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:5em;float:left;line-height:.72;
+  margin:6px 10px -4px 0;
+  color:var(--blush);letter-spacing:-.03em;
+}
+.l-close{
+  margin-top:2.5rem;padding-top:1.5rem;
+  border-top:1px solid var(--wire);
+  display:flex;justify-content:space-between;align-items:baseline;
+}
+.l-sig{
+  font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;
+  font-size:1.4rem;color:rgba(200,120,128,.4);
+}
+.l-note{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(250,244,240,.14);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   FINAL — immersive close
+   Deep plum, large type, single thought
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+#final{
+  position:relative;z-index:2;
+  min-height:100vh;
+  background:var(--plum3);
+  display:flex;align-items:center;justify-content:center;
+  padding:100px 64px;
+  text-align:center;overflow:hidden;
+}
+/* ambient glow */
+.final-glow{
+  position:absolute;width:700px;height:700px;border-radius:50%;
+  background:radial-gradient(circle,rgba(92,68,120,.12),transparent 70%);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  animation:final-breathe 10s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes final-breathe{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.1);}}
+.final-glow2{
+  position:absolute;width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(200,120,128,.07),transparent 70%);
+  bottom:-100px;right:-100px;
+  animation:final-breathe 14s ease-in-out infinite reverse;
+  pointer-events:none;
+}
+.final-inner{position:relative;z-index:2;max-width:760px;}
+.final-tag{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.56em;text-transform:uppercase;
+  color:rgba(250,244,240,.18);margin-bottom:3.5rem;
+}
+.final-h{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:clamp(52px,8.5vw,108px);
+  line-height:.9;letter-spacing:-.04em;
+  color:var(--warm);margin-bottom:2.5rem;
+}
+.final-h .ital{font-style:italic;color:var(--blush);}
+.final-h .ghost{
+  display:block;font-weight:400;font-size:.5em;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(250,244,240,.1);
+  margin-top:.4em;
+}
+.final-divider{
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  margin-bottom:2.5rem;
+}
+.fd-line{width:48px;height:1px;background:rgba(200,120,128,.25);}
+.fd-petal{
+  width:8px;height:8px;
+  background:var(--rose);border-radius:50% 0;
+  transform:rotate(45deg);
+  animation:petal-spin 8s linear infinite;
+}
+@keyframes petal-spin{to{transform:rotate(405deg);}}
+.final-p{
+  font-family:'Crimson Pro',serif;font-size:clamp(16px,2vw,21px);
+  font-style:italic;font-weight:300;
+  color:rgba(250,244,240,.45);line-height:1.95;
+  max-width:520px;margin:0 auto 1.5rem;
+}
+
+/* ━━ MODAL ━━ */
+.modal{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  padding:1.5rem;
+  background:rgba(26,15,30,.92);backdrop-filter:blur(18px);
+  opacity:0;pointer-events:none;transition:opacity .35s;
+}
+.modal.open{opacity:1;pointer-events:all;}
+.mbox{
+  max-width:580px;width:100%;
+  background:var(--plum2);
+  border:1px solid rgba(187,168,212,.15);
+  position:relative;overflow:hidden;
+  transform:scale(.97);transition:transform .4s cubic-bezier(.16,1,.3,1);
+}
+.modal.open .mbox{transform:scale(1);}
+.mbox-bar{
+  background:var(--rose);
+  padding:0 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  height:56px;
+}
+.mbox-num{
+  font-family:'Bodoni Moda',serif;font-weight:900;
+  font-size:2rem;color:rgba(26,15,30,.3);letter-spacing:-.04em;
+}
+.mbox-date{
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.44em;text-transform:uppercase;
+  color:rgba(26,15,30,.5);
+}
+.mbox-body{padding:40px 36px;}
+.mbox-title{
+  font-family:'Bodoni Moda',serif;font-style:italic;font-weight:400;
+  font-size:1.1rem;color:var(--blush);
+  margin-bottom:1.2rem;display:block;
+}
+.mbox-text{
+  font-family:'Crimson Pro',serif;font-size:18px;font-style:italic;
+  font-weight:300;color:rgba(250,244,240,.7);line-height:2;
+}
+.mbox-close{
+  position:absolute;top:14px;right:16px;
+  background:none;border:none;cursor:pointer;
+  font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;
+  font-size:8px;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(26,15,30,.4);transition:color .25s;padding:.4rem;
+}
+.mbox-close:hover{color:rgba(26,15,30,.7);}
+
+/* ━━ REVEAL ━━ */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1);}
+.rv.in{opacity:1;transform:none;}
+.rv.d1{transition-delay:.1s;}
+.rv.d2{transition-delay:.2s;}
+.rv.d3{transition-delay:.3s;}
+
+/* ━━ RESPONSIVE ━━ */
+@media(max-width:1024px){
+  .stage-body{grid-template-columns:1fr;}
+  .stage-right{border-left:none;border-top:1px solid var(--wire);}
+  .timer-rows{flex-direction:row;flex-wrap:wrap;}
+  .tr{flex:1;min-width:120px;padding:12px 8px;justify-content:center;flex-direction:column;gap:4px;}
+  .tr-val{font-size:clamp(36px,5vw,52px);}
+  .si-type-a{grid-template-columns:80px 1fr;}
+  .sia-num{font-size:2.5rem;padding:32px 16px;}
+  .si-type-b{padding:60px 40px;}
+  .si-type-c{grid-template-columns:1fr;}
+  .sic-card{border-right:none;border-bottom:1px solid rgba(26,15,30,.06);}
+  .stage-top,.stage-left,.stage-right,.thirteen-head,.essay-inner{padding-left:36px;padding-right:36px;}
+  #thirteen{padding-left:36px;}
+  .cards-track{padding-right:36px;}
+  #letter{padding:72px 36px;}
+  .letter-wrap{grid-template-columns:1fr;}
+  .letter-margin{position:static;padding-right:0;margin-bottom:48px;padding-bottom:40px;border-bottom:1px solid var(--wire);}
+  .letter-doc{border-left:none;padding-left:0;}
+  #final{padding:80px 36px;}
+  .sweet-banner,.sia-body,.sic-card,.sid-body{padding-left:36px;padding-right:36px;}
+}
+@media(max-width:640px){
+  .stage-h{font-size:clamp(40px,11vw,60px);}
+  .l-close{flex-direction:column;gap:8px;}
+  .day-card{width:140px;min-height:220px;}
+  .si-type-d{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div id="cA"></div>
+<div id="cB"></div>
+
+<!-- ══════════════════════════════════
+     STAGE
+══════════════════════════════════ -->
+<div id="stage">
+  <div class="amb amb1"></div>
+  <div class="amb amb2"></div>
+
+  <div class="stage-top">
+    <span class="st-wordmark">Prishay</span>
+    <span class="st-meta">Day Thirteen &nbsp;·&nbsp; April 29, 2026</span>
+  </div>
+
+  <div class="stage-body">
+    <div class="stage-left">
+      <div class="stage-eyebrow">Thirteen days &nbsp;·&nbsp; For you, only ever</div>
+      <h1 class="stage-h">
+        The world<br>is better<br>
+        <span class="ital">with you in it.</span>
+        <span class="rule">Not an opinion — a fact.</span>
+      </h1>
+      <p class="stage-sub">
+        Thirteen days from now the calendar marks April 29th. But what it is really marking is you — and everything you are — which is worth far more than one day could hold.
+      </p>
+      <div class="stage-scroll">
+        <div class="scroll-tick"></div>
+        Scroll to read
+      </div>
+    </div>
+
+    <div class="stage-right">
+      <div class="stage-timer-label">Until April 29, 2026</div>
+      <div class="timer-rows">
+        <div class="tr"><span class="tr-label">Days</span><span class="tr-val" id="tD">--</span></div>
+        <div class="tr"><span class="tr-label">Hours</span><span class="tr-val" id="tH">--</span></div>
+        <div class="tr"><span class="tr-label">Minutes</span><span class="tr-val" id="tM">--</span></div>
+        <div class="tr"><span class="tr-label">Seconds</span><span class="tr-val" id="tS">--</span></div>
+      </div>
+      <div id="bday-glow">Today is finally yours,<br>Prishay. ✦</div>
+      <p class="timer-note">Every second is carrying something toward you.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     SWEET — the personal section
+══════════════════════════════════ -->
+<section id="sweet">
+  <div class="sweet-banner">
+    <span class="sweet-banner-text">Chapter One &nbsp;·&nbsp; Said directly</span>
+    <span class="sweet-banner-title">Things About You</span>
+    <span class="sweet-banner-text">For Prishay &nbsp;·&nbsp; Only</span>
+  </div>
+
+  <div class="sweet-items">
+
+    <!-- TYPE A -->
+    <div class="si-type-a rv">
+      <div class="sia-num">1</div>
+      <div class="sia-body">
+        <div class="sia-label">On the way you make people feel</div>
+        <div class="sia-h">You make people feel like <em>the most interesting version of themselves</em></div>
+        <div class="sia-line">Not by complimenting them. By being genuinely curious about who they actually are — not the curated version they show everyone else. The unpolished, unedited, still-figuring-it-out version. You want that one. And the moment someone feels that from you, something in them relaxes and expands. You do this so naturally you probably have no idea how rare it is.</div>
+      </div>
+    </div>
+
+    <!-- TYPE B — dark centred quote -->
+    <div class="si-type-b rv">
+      <div class="sib-tag">On how you love</div>
+      <p class="sib-text">"You love people with <strong>both hands</strong> and very few conditions. In a world where love is frequently offered at a comfortable remove, that is one of the most quietly radical things a person can do."</p>
+      <p class="sib-attr">Observed. True. Always.</p>
+    </div>
+
+    <!-- TYPE A — reversed feel -->
+    <div class="si-type-a rv">
+      <div class="sia-num">3</div>
+      <div class="sia-body">
+        <div class="sia-label">On your laugh</div>
+        <div class="sia-h">The real one — the <em>unguarded one</em> — changes the room</div>
+        <div class="sia-line">Not the polite version. The real one: full, unplanned, completely uncalculated. When it comes out, it gives every person in the room permission to stop performing and actually be present. You have probably saved more difficult moments with that laugh than you will ever know. It is one of the most genuinely generous things about you.</div>
+      </div>
+    </div>
+
+    <!-- TYPE C — two micro cards -->
+    <div class="si-type-c rv">
+      <div class="sic-card">
+        <div class="sic-n">4</div>
+        <div class="sic-label">On your honesty</div>
+        <h3 class="sic-h">When you say something, <em>you mean all of it</em></h3>
+        <p class="sic-p">No hedging. No strategic phrasing. When you tell someone they matter, they matter — in full. The weight your words carry is a direct result of never having been careless with them. People trust what you say in a way they do not always extend to others.</p>
+      </div>
+      <div class="sic-card">
+        <div class="sic-n">5</div>
+        <div class="sic-label">On your strength</div>
+        <h3 class="sic-h">You carry hard things without <em>becoming hard</em></h3>
+        <p class="sic-p">Every difficult season tried to calcify you — to make you smaller, more defended, less willing. You came through every single one still warm. Still open. That is not passive. It is one of the most deliberate and courageous choices a person can make, and you have made it every time, mostly without anyone seeing.</p>
+      </div>
+    </div>
+
+    <!-- TYPE D — dark, offset -->
+    <div class="si-type-d rv">
+      <div class="sid-num">6</div>
+      <div class="sid-body">
+        <div class="sid-label">On your name</div>
+        <h3 class="sid-h">Prishay — <em>rare in every possible way</em></h3>
+        <p class="sid-p">It sounds like something poets would have invented if they had known you first. Rare. Specific. Unmistakable. It does not sound like anyone else because it is not. It was made for exactly one person, and it fits. The same way you do not quite fit any available category — because you were never designed to. You are your own kind entirely.</p>
+      </div>
+    </div>
+
+    <!-- TYPE A -->
+    <div class="si-type-a rv">
+      <div class="sia-num">7</div>
+      <div class="sia-body">
+        <div class="sia-label">On your presence</div>
+        <div class="sia-h">Your absence is <em>felt in rooms</em></div>
+        <div class="sia-line">Think about what that means — it means rooms notice when you are not there. Something is different, slightly less settled, without quite the same quality of ease. That is what it means to have presence: not that you demand it, but that you generate it simply by being. And people feel it before they can name it, every single time.</div>
+      </div>
+    </div>
+
+    <!-- TYPE B -->
+    <div class="si-type-b rv">
+      <div class="sib-tag">On where you are going</div>
+      <p class="sib-text">"She is not <strong>waiting to arrive</strong>. She is already in the most interesting part of becoming — and what comes out of it will be extraordinary, because what went in was."</p>
+      <p class="sib-attr">True now &nbsp;·&nbsp; True always</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     THIRTEEN CARDS — horizontal drag
+══════════════════════════════════ -->
+<section id="thirteen">
+  <div class="thirteen-head rv">
+    <div>
+      <div style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:200;font-size:8px;letter-spacing:.52em;text-transform:uppercase;color:var(--rose);display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;">
+        <span style="display:block;width:16px;height:1px;background:var(--rose);"></span>Chapter Two
+      </div>
+      <h2 class="th-h">Thirteen days —<br><em>each one, for you</em></h2>
+    </div>
+    <p class="th-note">Drag or scroll the cards. Click any that have arrived to open what they hold.</p>
+  </div>
+
+  <div class="cards-track" id="cardsTrack"></div>
+</section>
+
+<!-- ══════════════════════════════════
+     ESSAY
+══════════════════════════════════ -->
+<section id="essay">
+  <div class="essay-inner">
+    <div class="essay-meta rv">
+      <span class="essay-chap">Chapter Three &nbsp;·&nbsp; On this moment</span>
+      <div class="essay-line"></div>
+    </div>
+    <h2 class="essay-h rv">On being in the <em>middle of something</em></h2>
+
+    <p class="e-lg rv">The middle of becoming something is one of the most disorienting places to exist — and one of the most important ones.</p>
+
+    <p class="e-body rv">You are no longer the version of yourself from a few years ago. You have outgrown her so completely that looking back at certain decisions she made almost feels like reading about someone else — someone you understand and do not judge, but are clearly no longer. And yet you have not fully arrived at the person you are becoming. <strong>You are in the crossing.</strong> The between. And it is uncomfortable in a way that is genuinely hard to explain to someone who is not in it.</p>
+
+    <div class="e-rule rv"></div>
+
+    <p class="e-hl rv">"The discomfort is not a sign that something is wrong. It is a sign that something is happening."</p>
+
+    <div class="e-rule rv"></div>
+
+    <p class="e-body rv">What I want you to understand — what I need you to actually hear — is that this exact place you are in right now is not the waiting room before your real life begins. <em>This is your real life.</em> The uncertain middle of it is not filler. It is where the most important things are being decided and built: your knowledge of who you are, your clarity about what you will not accept, your bone-level certainty about your own worth. Those do not come from the resolved chapters. They come from this.</p>
+
+    <p class="e-body rv">And thirteen days from your birthday — walking through all of it, carrying the questions, staying warm through everything that tried to make you less warm — <strong>you are the most worth celebrating version yet.</strong> Not despite the in-between. Because of it.</p>
+
+    <p class="e-small rv">April 29, 2026 &nbsp;·&nbsp; Written for Prishay &nbsp;·&nbsp; Chapter Three of Thirteen</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     LETTER
+══════════════════════════════════ -->
+<section id="letter">
+  <div class="letter-wrap">
+    <div class="letter-margin rv">
+      <div class="lm-tag">Chapter Four</div>
+      <h2 class="lm-h">To you —<br><em>sweetly</em></h2>
+      <p class="lm-p">A letter for the version of you that sometimes forgets how good she is. This one is specifically and entirely for her.</p>
+      <div class="lm-stamp">For Prishay &nbsp;·&nbsp; April 29, 2026</div>
+    </div>
+
+    <div class="letter-doc rv">
+      <span class="l-salute">Prishay —</span>
+      <div class="l-body">
+        <p>You are so good at noticing the people around you. At seeing them — actually seeing them, not the version they perform, but the real one underneath. You notice when someone is tired before they say so. You notice when someone needs a conversation to go somewhere more honest and you gently, without announcement, take it there. You notice the small things: the particular way someone lights up talking about one specific thing, the detail they mentioned once that you remembered for months. You notice, and then you act on what you notice, and the people around you feel it in ways they will not always be able to articulate.</p>
+        <p>I want you to know that you deserve someone noticing you that way too. Not occasionally — consistently. Not when it is easy — especially when it is not. You deserve the same quality of attention you give, aimed back at you with the same warmth and the same care. <em>You are not too much for that kind of love.</em> You are exactly the right amount. Anyone who has made you feel otherwise was simply not paying the right kind of attention.</p>
+        <p>And I want to say something about April 29th — not as a birthday, but as a day that belongs to you. A day to receive. To let the good things come toward you without redirecting them, without explaining why they are not necessary, without checking first whether you have earned them. <strong>You have. You do. You always have.</strong> The version of you that exists right now — thirteen days out, still becoming, carrying everything — is the one this day is for. All of her. Not just the finished parts.</p>
+        <p>Walk into it like someone who knows they are loved. Because you are. <em>Properly. Fully. Without a single condition.</em></p>
+      </div>
+      <div class="l-close">
+        <span class="l-sig">— with everything, always</span>
+        <span class="l-note">For Prishay only &nbsp;·&nbsp; Always</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════
+     FINAL
+══════════════════════════════════ -->
+<section id="final">
+  <div class="final-glow"></div>
+  <div class="final-glow2"></div>
+  <div class="final-inner rv">
+    <div class="final-tag">For Prishay &nbsp;·&nbsp; Thirteen days &nbsp;·&nbsp; Only ever</div>
+    <h2 class="final-h">
+      You are<br>
+      <span class="ital">loved.</span>
+      <span class="ghost">Entirely. Right now.</span>
+    </h2>
+    <div class="final-divider">
+      <div class="fd-line"></div>
+      <div class="fd-petal"></div>
+      <div class="fd-line"></div>
+    </div>
+    <p class="final-p">Not the finished version. Not after things resolve. Not when you feel like you have finally earned it. Right now — exactly as you are, with everything you are carrying, in the middle of everything you are still becoming — you are loved. Fully. Properly. Without exception or condition.</p>
+    <p class="final-p" style="color:rgba(250,244,240,.22);">Thirteen days from now the world gets to say it out loud with a whole day. But it has been true every single day before this one. And it will be true every day after.</p>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeM()">
+  <div class="mbox">
+    <button class="mbox-close" onclick="closeM()">close ×</button>
+    <div class="mbox-bar">
+      <span class="mbox-num" id="mN"></span>
+      <span class="mbox-date" id="mDt"></span>
+    </div>
+    <div class="mbox-body">
+      <span class="mbox-title" id="mTl"></span>
+      <p class="mbox-text" id="mTx"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── CURSOR ── */
+var cA=document.getElementById('cA'),cB=document.getElementById('cB');
+document.addEventListener('mousemove',function(e){
+  cA.style.left=e.clientX+'px';cA.style.top=e.clientY+'px';
+  cB.style.left=e.clientX+'px';cB.style.top=(e.clientY+16)+'px';
+});
+
+/* ── TIMER ── */
+var TARGET=new Date('2026-04-29T00:00:00');
+function pad(n){return String(Math.floor(n)).padStart(2,'0');}
+function tick(){
+  var now=new Date(),d=TARGET-now;
+  if(d<=0){
+    document.querySelector('.timer-rows').style.display='none';
+    document.querySelector('.stage-timer-label').style.display='none';
+    document.querySelector('.timer-note').style.display='none';
+    document.getElementById('bday-glow').style.display='block';
+    return;
+  }
+  document.getElementById('tD').textContent=pad(d/86400000);
+  document.getElementById('tH').textContent=pad((d%86400000)/3600000);
+  document.getElementById('tM').textContent=pad((d%3600000)/60000);
+  document.getElementById('tS').textContent=pad((d%60000)/1000);
+}
+tick();setInterval(tick,1000);
+
+/* ── MESSAGES ── */
+var msgs=[
+  {n:1,d:'Apr 11',tl:'The beginning',t:'The first day. And the first thing — the most important thing — is this: you are the kind of person the world is genuinely better for having. Not in an abstract, general sense. In a specific, documented, witnessed way. The rooms you have been in. The people you have sat with. The conversations you took somewhere more honest. The world you have quietly, consistently made warmer. That started on a particular day, and that day is thirteen days from now.'},
+  {n:2,d:'Apr 12',tl:'What you carry without knowing',t:'You have a way of making people feel like whatever they are going through has been genuinely understood — not processed, not filed, not responded to with the right phrases, but actually understood. People leave conversations with you feeling less alone in a way they cannot always explain. That is because you are not performing empathy. You are actually there, in the thing with them, for however long it takes. That is one of the finest things a person can offer.'},
+  {n:3,d:'Apr 13',tl:'The temperature you set',t:'There is a warmth that follows you into rooms. Not a loud warmth — the quiet kind that only becomes visible in its absence. The kind that makes people set down whatever they were carrying at the door because something in the room has made it feel safe to. You create that without trying, without announcing it, without even being aware of it most of the time. But it is one of the most consistent things about every space you have ever occupied.'},
+  {n:4,d:'Apr 14',tl:'What April means',t:'April means opening. Its entire character is about unfolding, beginning, becoming. And you arrived at the very end of it — which means you are not where the month starts. You are where it arrives. You are the culmination of every promise April made. Spring builds toward its own best moment, and then it made you. That is not a small position to hold in the order of things.'},
+  {n:5,d:'Apr 15',tl:'On the unedited version',t:'There is a version of you that very few people ever see — the unguarded one, the one that has not been edited for the room. The one that says the exact true thing before she has had time to check whether it is appropriate. The one that laughs before she calculates whether the laugh is too much. That version is the best one. Not because she is the most careful — but because she is the most real. And real is always worth more than careful.'},
+  {n:6,d:'Apr 16',tl:'Halfway to the day',t:'Six days down, seven to go. And here is what these six days have not changed at all: the certainty behind every word of this. I am not one degree less certain today than on day one. You deserve to hear these things. You deserve, more importantly, to believe them — not as flattery, not as performance, but as simple, observable, documented fact. You are all of this. You have always been all of this.'},
+  {n:7,d:'Apr 17',tl:'What you deserve',t:'You deserve someone who notices you the way you notice other people. With that quality of attention — specific, unhurried, genuinely curious about who you actually are rather than who is most convenient to have you be. You deserve to be received the way you receive people: without conditions, without a cap on how much, without making you feel like your needs are an inconvenience. You are not too much for that kind of love. You are exactly what that kind of love is for.'},
+  {n:8,d:'Apr 18',tl:'The specific joy of you',t:'Your sense of what is funny is one of my favourite things about you. Not the performed version — the real one, the one that catches something absurd in the middle of the ordinary and cannot help but surface it. The one that finds the joke before anyone else has seen it. The one that has probably saved more rooms from themselves than anyone will ever count. You carry lightness as a genuine gift, and you give it away without keeping score.'},
+  {n:9,d:'Apr 19',tl:'What you leave behind',t:'The people who have been lucky enough to really know you carry something of you with them in a way that is hard to explain. Not just a memory of you — something more active than that. A quality of thinking about things. A higher standard for what a real conversation feels like. A residual warmth that shows up years later and they cannot quite trace back to its source. You do this to people. You change what they expect from being known.'},
+  {n:10,d:'Apr 20',tl:'On your strength',t:'You have been through things that would have made most people harder, more defended, less willing to remain open. You did not let that happen. You came through still warm, still curious, still giving, still entirely yourself — which is not a passive achievement. It is one of the most active and courageous choices a person can make. And you have made it not once but consistently, in season after season, without looking for credit for it.'},
+  {n:11,d:'Apr 21',tl:'Three days left',t:'Three days. And I want to say something I have not said directly yet: I am glad you exist. Not in the general human sense. In the specific Prishay sense. The world you specifically occupy, with your specific warmth and your specific way of seeing things and your specific laugh and your specific name — that world is measurably better than the one that would have existed without you in it. That is not an exaggeration. That is what thirteen days of saying this has been building to.'},
+  {n:12,d:'Apr 22',tl:'The day before the day before',t:'Two days left. And here is what I want you to carry into April 29th: not pressure, not expectation, not the feeling that you have to show up as some finished, resolved, figured-out version of yourself. Just yourself — exactly as you are, carrying whatever you are carrying, somewhere in the middle of whatever you are still becoming. That version is the one this day is for. All of her. Not just the parts that have landed yet.'},
+  {n:13,d:'Apr 29 ✦',tl:'Today — finally',t:'Today. After everything that has been building — all the days before this one, all the seasons that constructed this version of you, all the mornings that were quietly practicing being this morning — today is the day. The world got you on this day. And for that single, irreducible fact — that you exist in it, that you are warm in it, that you are entirely and completely yourself in it — the world has been better in every way that actually matters. Happy birthday, Prishay. You are the whole reason.'}
+];
+
+/* ── BUILD CARDS ── */
+var track=document.getElementById('cardsTrack');
+var now=new Date();
+var start=new Date('2026-04-11T00:00:00');
+
+for(var i=0;i<msgs.length;i++){
+  var m=msgs[i];
+  var cd=new Date(start);cd.setDate(start.getDate()+i);
+  var isB=i===12,isT=now.toDateString()===cd.toDateString(),isPast=cd<=now;
+  var el=document.createElement('div');
+  var cls='day-card'+(isPast?' lit':'')+(isT?' is-today':'')+(isB?' is-bday':'');
+  el.className=cls;
+  el.innerHTML=
+    '<div class="dc-top">'
+    +'<span class="dc-num">'+m.n+'</span>'
+    +'<span class="dc-status">'+(isPast?'Open':'Soon')+'</span>'
+    +'</div>'
+    +'<div class="dc-mid"><div class="dc-title">'+(isPast?m.tl:'Waiting')+'</div></div>'
+    +'<div class="dc-bottom"><div class="dc-date">'+m.d+'</div></div>'
+    +(isPast?'<span class="dc-reveal">Read →</span>':'');
+  if(isPast){(function(msg){el.addEventListener('click',function(){openM(msg);});})(m);}
+  track.appendChild(el);
+}
+
+/* drag-scroll */
+var isDown=false,startX=0,scrollLeft=0;
+track.addEventListener('mousedown',function(e){isDown=true;track.classList.add('grabbing');startX=e.pageX-track.offsetLeft;scrollLeft=track.scrollLeft;});
+document.addEventListener('mouseup',function(){isDown=false;track.classList.remove('grabbing');});
+track.addEventListener('mousemove',function(e){if(!isDown)return;e.preventDefault();var x=e.pageX-track.offsetLeft;track.scrollLeft=scrollLeft-(x-startX);});
+
+/* ── MODAL ── */
+function openM(m){
+  document.getElementById('mN').textContent=m.n;
+  document.getElementById('mDt').textContent=m.d;
+  document.getElementById('mTl').textContent=m.tl;
+  document.getElementById('mTx').textContent=m.t;
+  document.getElementById('modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeM(){
+  document.getElementById('modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM();});
+
+/* ── SCROLL REVEAL ── */
+var obs=new IntersectionObserver(function(es){
+  es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});
+},{threshold:.04});
+document.querySelectorAll('.rv').forEach(function(r){obs.observe(r);});
+</script>
+</body>
+</html>
